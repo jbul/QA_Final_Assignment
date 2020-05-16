@@ -60,6 +60,18 @@ public class Controller {
         throw new SurveyNotFoundException();
     }
 
+    public void createSurveyResponse(String name, String surveyName){
+
+    }
+
+    public void addAnswerToSurveyResponse(int answer, String surveyResponseName, String question){
+
+    }
+
+    public List<SurveyResponse> getAllSurveyResponsesForSurvey(String surveyName){
+        return null;
+    }
+
     public List<Survey> getSurveys() {
         return surveys;
     }
@@ -76,4 +88,5 @@ public class Controller {
     public void setSurveyResponses(List<SurveyResponse> surveyResponses) {
         this.surveyResponses = surveyResponses;
     }
+
 }

@@ -1,11 +1,9 @@
 package com.qa.assignment.controller;
 
-import com.qa.assignment.exception.QuestionCreateException;
-import com.qa.assignment.exception.QuestionsLimitReachedException;
-import com.qa.assignment.exception.SurveyCreateException;
-import com.qa.assignment.exception.SurveyNotFoundException;
+import com.qa.assignment.exception.*;
 import com.qa.assignment.model.Question;
 import com.qa.assignment.model.Survey;
+import com.qa.assignment.model.SurveyResponse;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -204,7 +202,162 @@ public class ControllerTest {
         for(int i = 1; i < 4; i++){
             Assert.assertEquals("Survey" + i, tester.getSurveys().get(i-1).getSurveyName());
         }
+    }
 
+    @Test
+    public void createSurveyResponseTest(){
+        Controller tester = new Controller();
+        String name = "Julie SurveyResponse";
+        String surveyName = "Survey Test";
+        tester.createSurvey(surveyName);
+
+        int initialSize = tester.getSurveyResponses().size();
+
+        tester.createSurveyResponse(name, surveyName);
+
+        Assert.assertEquals(1, tester.getSurveys().size() - initialSize);
+        Assert.assertEquals(name, tester.getSurveyResponses().get(tester.getSurveyResponses().size() - 1).getName());
+    }
+
+    @Test(expected = SurveyNotFoundException.class)
+    public void createSurveyResponseSurveyNameNotFoundTest(){
+        Controller tester = new Controller();
+        String name = "Julie SurveyResponse";
+        String surveyName = "Survey Test";
+
+        tester.createSurveyResponse(name, surveyName);
+    }
+
+    @Test(expected = SurveyResponseCreateException.class)
+    public void createDuplicateSurveyResponseNameTest(){
+        Controller tester = new Controller();
+        String name = "Julie SurveyResponse";
+        String surveyName = "Survey Test";
+
+        tester.createSurvey(surveyName);
+        tester.createSurveyResponse(name, surveyName);
+        tester.createSurveyResponse(name, "Survey Test 2");
+    }
+
+    @Test(expected = SurveyResponseCreateException.class)
+    public void createSurveyResponseWithEmptyNameTest(){
+        Controller tester = new Controller();
+        String name = "";
+        String surveyName = "Survey Test";
+
+        tester.createSurvey(surveyName);
+        tester.createSurveyResponse(name, surveyName);
 
     }
+
+    @Test(expected = SurveyResponseCreateException.class)
+    public void createSurveyResponseWithNullValueNameTest(){
+        Controller tester = new Controller();
+        String name = null;
+        String surveyName = "Survey Test";
+        tester.createSurvey(surveyName);
+        tester.createSurveyResponse(name, surveyName);
+
+    }
+
+    @Test
+    public void addAnswerToSurveyResponseTest(){
+        Controller tester = new Controller();
+        String name = "Julie SurveyResponse";
+        String surveyName = "Survey Test";
+        String expectedQuestion = "Test Question";
+        Integer answer = 3;
+
+        tester.createSurvey(surveyName);
+        tester.addQuestion(surveyName, expectedQuestion);
+        tester.createSurveyResponse(name, surveyName);
+        tester.addAnswerToSurveyResponse(answer, name, expectedQuestion);
+
+        Assert.assertEquals(answer, tester.getSurveyResponses().get(0).getResponses().get(expectedQuestion));
+    }
+
+    @Test(expected = QuestionNotFoundException.class)
+    public void addAnswerToSurveyResponseQuestionNotFoundTest(){
+        Controller tester = new Controller();
+        String name = "Julie SurveyResponse";
+        String surveyName = "Survey Test";
+        String expectedQuestion = "Test Question";
+        Integer answer = 3;
+
+        tester.createSurvey(surveyName);
+        tester.addQuestion(surveyName, expectedQuestion);
+        tester.createSurveyResponse(name, surveyName);
+        tester.addAnswerToSurveyResponse(answer, name, "Another question");
+    }
+
+    @Test(expected = SurveyResponseNotFound.class)
+    public void addAnswerToSurveyResponseNotFoundTest(){
+        Controller tester = new Controller();
+        String name = "Julie SurveyResponse";
+        String surveyName = "Survey Test";
+        String expectedQuestion = "Test Question";
+        Integer answer = 3;
+
+        tester.createSurvey(surveyName);
+        tester.addQuestion(surveyName, expectedQuestion);
+        tester.createSurveyResponse(name, surveyName);
+        tester.addAnswerToSurveyResponse(answer, "Julia SurveyResponse", expectedQuestion);
+    }
+
+    @Test(expected = InvalidAnswerException.class)
+    public void addInvalidAnswerToSurveyResponseTest(){
+        Controller tester = new Controller();
+        String name = "Julie SurveyResponse";
+        String surveyName = "Survey Test";
+        String expectedQuestion = "Test Question";
+        Integer answer = 6;
+
+        tester.createSurvey(surveyName);
+        tester.addQuestion(surveyName, expectedQuestion);
+        tester.createSurveyResponse(name, surveyName);
+        tester.addAnswerToSurveyResponse(answer, name, expectedQuestion);
+    }
+
+    @Test
+    public void getAllSurveyResponsesForSurvey(){
+        Controller tester = new Controller();
+        String name = "Julie SurveyResponse";
+        String name2 = "Joe SurveyReponse";
+        String surveyName = "Survey Test";
+        String expectedQuestion = "Test Question";
+        String question2 = "Test Question2";
+        Integer answer = 4;
+        Integer answer2 = 3;
+
+        tester.createSurvey(surveyName);
+        tester.addQuestion(surveyName, expectedQuestion);
+        tester.createSurveyResponse(name, surveyName);
+        tester.createSurveyResponse(name2, surveyName);
+        tester.addAnswerToSurveyResponse(answer, name, expectedQuestion);
+        tester.addAnswerToSurveyResponse(answer2, name2, question2);
+        List<SurveyResponse> responses = tester.getAllSurveyResponsesForSurvey(surveyName);
+
+        for (SurveyResponse surveyResponse : responses) {
+            Assert.assertEquals(surveyName, surveyResponse.getSurvey().getSurveyName());
+        }
+    }
+
+    @Test(expected =SurveyNotFoundException.class)
+    public void getAllSurveyResponsesForSurveyNotFoundTest(){
+        Controller tester = new Controller();
+        String name = "Julie SurveyResponse";
+        String surveyName = "Survey Test";
+        String expectedQuestion = "Test Question";
+        Integer answer = 4;
+
+        tester.createSurvey(surveyName);
+        tester.addQuestion(surveyName, expectedQuestion);
+        tester.createSurveyResponse(name, surveyName);
+        tester.addAnswerToSurveyResponse(answer, name, expectedQuestion);
+        tester.getAllSurveyResponsesForSurvey("New survey");
+    }
+
+
+
+
 }

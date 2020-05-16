@@ -4,11 +4,20 @@ import java.util.Map;
 
 public class SurveyResponse {
 
+    private String name;
     private Survey survey;
-    //First integer refers to the question id, second integer refers to the answer (1-5)
-    private Map<Integer, Integer> responses;
+    //First integer refers to the question name, second integer refers to the answer (1-5)
+    private Map<String, Integer> responses;
 
     public SurveyResponse(){}
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Survey getSurvey() {
         return survey;
@@ -18,11 +27,11 @@ public class SurveyResponse {
         this.survey = survey;
     }
 
-    public Map<Integer, Integer> getResponses() {
+    public Map<String, Integer> getResponses() {
         return responses;
     }
 
-    public void setResponses(Map<Integer, Integer> responses) {
+    public void setResponses(Map<String, Integer> responses) {
         this.responses = responses;
     }
 }
