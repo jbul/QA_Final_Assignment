@@ -21,8 +21,8 @@ public class Controller {
 
     public void createSurvey(String name) {
         Survey survey = new Survey(name);
-        for (Survey s : surveys) {
-            if (name == null || s.getSurveyName().equalsIgnoreCase(name) || name.equals("") ) {
+        for (Survey existingSurvey : surveys) {
+            if (name == null || existingSurvey.getSurveyName().equalsIgnoreCase(name) || name.equals("") ) {
                 throw new SurveyCreateException();
 
             }
@@ -52,9 +52,9 @@ public class Controller {
     }
 
     public Survey getSurveyByName(String surveyName) {
-        for (Survey s : surveys) {
-            if (s.getSurveyName().equals(surveyName)) {
-                return s;
+        for (Survey existingSurvey : surveys) {
+            if (existingSurvey.getSurveyName().equals(surveyName)) {
+                return existingSurvey;
             }
         }
         throw new SurveyNotFoundException();

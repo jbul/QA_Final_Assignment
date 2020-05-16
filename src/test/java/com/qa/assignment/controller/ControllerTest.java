@@ -135,13 +135,14 @@ public class ControllerTest {
     @Test(expected = QuestionCreateException.class)
     public void questionIsNullTest(){
         Controller tester = new Controller();
-        Survey survey = new Survey("TestSurvey");
+        String surveyName = "TestSurvey";
+        Survey survey = new Survey(surveyName);
         tester.setSurveys(Arrays.asList(survey));
 
         String nullQuestion = "";
         tester.setSurveys(Arrays.asList(survey));
 
-        tester.addQuestion("TestSurvey", nullQuestion);
+        tester.addQuestion(surveyName, nullQuestion);
 
     }
 
@@ -152,14 +153,15 @@ public class ControllerTest {
     @Test(expected = QuestionCreateException.class)
     public void addDuplicateQuestionTest(){
         Controller tester = new Controller();
-        Survey survey = new Survey("TestSurvey");
+        String surveyName = "TestSurvey";
+        Survey survey = new Survey(surveyName);
         tester.setSurveys(Arrays.asList(survey));
 
         String questionTest = "Test Question";
         tester.setSurveys(Arrays.asList(survey));
-        tester.addQuestion("TestSurvey", questionTest);
+        tester.addQuestion(surveyName, questionTest);
 
-        tester.addQuestion("TestSurvey", questionTest);
+        tester.addQuestion(surveyName, questionTest);
     }
 
     /**
@@ -177,9 +179,9 @@ public class ControllerTest {
      */
     @Test
     public void getSurveyByNameTest(){
-        Survey survey = new Survey("TestSurvey");
-        Controller tester = new Controller();
         String surveyName = "TestSurvey";
+        Survey survey = new Survey(surveyName);
+        Controller tester = new Controller();
         tester.setSurveys(Arrays.asList(survey));
 
         Survey resultSurvey = tester.getSurveyByName(surveyName);
@@ -192,14 +194,17 @@ public class ControllerTest {
     @Test
     public void getAllSurveysTest(){
         Controller tester = new Controller();
-        tester.createSurvey("Survey1");
-        tester.createSurvey("Survey2");
-        tester.createSurvey("Survey3");
+
+        for(int i = 1; i < 4; i++){
+            tester.createSurvey("Survey" + i);
+        }
 
         Assert.assertEquals(3, tester.getSurveys().size());
-        Assert.assertEquals("Survey1", tester.getSurveys().get(0).getSurveyName());
-        Assert.assertEquals("Survey2", tester.getSurveys().get(1).getSurveyName());
-        Assert.assertEquals("Survey3", tester.getSurveys().get(2).getSurveyName());
+
+        for(int i = 1; i < 4; i++){
+            Assert.assertEquals("Survey" + i, tester.getSurveys().get(i-1).getSurveyName());
+        }
+
 
     }
 }

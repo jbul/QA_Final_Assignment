@@ -1,15 +1,14 @@
 package com.qa.assignment.model;
 
-import java.util.ArrayList;
+
 
 public class Question {
 
-    private static int SEQUENCE = 0;
     private String question;
     private int questionID;
 
     public Question() {
-        this.questionID = SEQUENCE++;
+
     }
 
     public Question(String question){

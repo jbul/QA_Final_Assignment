@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Survey {
-    private static int SEQUENCE = 0;
     private String surveyName;
     private int surveyId;
     private List<Question> questions;
 
     public Survey(){
-        this.surveyId = SEQUENCE++;
         questions = new ArrayList<>();
     }
 
