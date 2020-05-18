@@ -7,7 +7,6 @@ import com.qa.assignment.model.SurveyResponse;
 import org.junit.Assert;
 import org.junit.Test;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +17,7 @@ public class ControllerTest {
      * Ensure the list of survey is increased by one when the method createSurvey is called
      */
     @Test
-    public void createSurveyTest(){
+    public void createSurveyTest() {
         // Initialise
         Controller tester = new Controller();
         String expectedName = "testSurvey";
@@ -37,7 +36,7 @@ public class ControllerTest {
      * Verify an exception is thrown in a attempt to create a survey with a name already existing.
      */
     @Test(expected = SurveyCreateException.class)
-    public void duplicateSurveyNameTest(){
+    public void duplicateSurveyNameTest() {
         Controller tester = new Controller();
         String expectedName = "testSurvey";
         tester.createSurvey(expectedName);
@@ -50,7 +49,7 @@ public class ControllerTest {
      * Verify an exception is thrown in a attempt to create a survey with an empty name
      */
     @Test(expected = SurveyCreateException.class)
-    public void emptySurveyNameTest(){
+    public void emptySurveyNameTest() {
         Controller tester = new Controller();
         String expectedName = "";
 
@@ -64,7 +63,7 @@ public class ControllerTest {
      * Verify an exception in thrown in a attempt to create a survey with a null value as name
      */
     @Test(expected = SurveyCreateException.class)
-    public void surveyNameNullTest(){
+    public void surveyNameNullTest() {
         Controller tester = new Controller();
         String expectedName = null;
 
@@ -78,7 +77,7 @@ public class ControllerTest {
      * Checks the question is added to the survey from survey name
      */
     @Test
-    public void addQuestionTest(){
+    public void addQuestionTest() {
         Survey survey = new Survey("TestSurvey");
         Controller tester = new Controller();
         String expectedQuestion = "Test Question";
@@ -95,7 +94,7 @@ public class ControllerTest {
      * Verify an exception is thrown in attempt to add more than 10 questions to a survey
      */
     @Test(expected = QuestionsLimitReachedException.class)
-    public void addMoreThan10QuestionsToASurveyTest(){
+    public void addMoreThan10QuestionsToASurveyTest() {
         Controller tester = new Controller();
 
         Survey survey = new Survey("TestSurvey");
@@ -103,7 +102,7 @@ public class ControllerTest {
 
         List<Question> questions = new ArrayList<>();
 
-        for (int i = 0; i< 10; i++) {
+        for (int i = 0; i < 10; i++) {
             questions.add(new Question("Question" + i));
         }
 
@@ -116,7 +115,7 @@ public class ControllerTest {
      * Verify an exception is thrown in attempt to add an empty question to a survey
      */
     @Test(expected = QuestionCreateException.class)
-    public void questionIsEmtpyTest(){
+    public void questionIsEmtpyTest() {
         Controller tester = new Controller();
         Survey survey = new Survey("TestSurvey");
         tester.setSurveys(Arrays.asList(survey));
@@ -131,7 +130,7 @@ public class ControllerTest {
      * Verify an exception is thrown in attempt to add a question with a null value to a survey
      */
     @Test(expected = QuestionCreateException.class)
-    public void questionIsNullTest(){
+    public void questionIsNullTest() {
         Controller tester = new Controller();
         String surveyName = "TestSurvey";
         Survey survey = new Survey(surveyName);
@@ -149,7 +148,7 @@ public class ControllerTest {
      * Verify an exception is thrown in attempt to add a duplicate question to a survey
      */
     @Test(expected = QuestionCreateException.class)
-    public void addDuplicateQuestionTest(){
+    public void addDuplicateQuestionTest() {
         Controller tester = new Controller();
         String surveyName = "TestSurvey";
         Survey survey = new Survey(surveyName);
@@ -166,7 +165,7 @@ public class ControllerTest {
      * Verify an exception is thrown when a survey is not found.
      */
     @Test(expected = SurveyNotFoundException.class)
-    public void SurveyNotFoundTest(){
+    public void SurveyNotFoundTest() {
         Controller tester = new Controller();
         tester.getSurveyByName("Survey testt");
     }
@@ -176,7 +175,7 @@ public class ControllerTest {
      * Check it is possible to retrieve a survey from the name given when created
      */
     @Test
-    public void getSurveyByNameTest(){
+    public void getSurveyByNameTest() {
         String surveyName = "TestSurvey";
         Survey survey = new Survey(surveyName);
         Controller tester = new Controller();
@@ -190,22 +189,25 @@ public class ControllerTest {
      * Check it is possible to retrieve all the surveys
      */
     @Test
-    public void getAllSurveysTest(){
+    public void getAllSurveysTest() {
         Controller tester = new Controller();
 
-        for(int i = 1; i < 4; i++){
+        for (int i = 1; i < 4; i++) {
             tester.createSurvey("Survey" + i);
         }
 
         Assert.assertEquals(3, tester.getSurveys().size());
 
-        for(int i = 1; i < 4; i++){
-            Assert.assertEquals("Survey" + i, tester.getSurveys().get(i-1).getSurveyName());
+        for (int i = 1; i < 4; i++) {
+            Assert.assertEquals("Survey" + i, tester.getSurveys().get(i - 1).getSurveyName());
         }
     }
 
+    /**
+     * Ensure the list of survey responses is increased by one when the method create surveyResponse is called
+     */
     @Test
-    public void createSurveyResponseTest(){
+    public void createSurveyResponseTest() {
         Controller tester = new Controller();
         String name = "Julie SurveyResponse";
         String surveyName = "Survey Test";
@@ -215,32 +217,42 @@ public class ControllerTest {
 
         tester.createSurveyResponse(name, surveyName);
 
-        Assert.assertEquals(1, tester.getSurveys().size() - initialSize);
+        Assert.assertEquals(1, tester.getSurveyResponses().size() - initialSize);
         Assert.assertEquals(name, tester.getSurveyResponses().get(tester.getSurveyResponses().size() - 1).getName());
     }
 
+    /**
+     * Verify an exception is thrown in a attempt to create a surveyResponse when the survey name is not found
+     */
     @Test(expected = SurveyNotFoundException.class)
-    public void createSurveyResponseSurveyNameNotFoundTest(){
+    public void createSurveyResponseSurveyNameNotFoundTest() {
         Controller tester = new Controller();
         String name = "Julie SurveyResponse";
         String surveyName = "Survey Test";
+        tester.createSurvey(surveyName);
 
-        tester.createSurveyResponse(name, surveyName);
+        tester.createSurveyResponse(name, "Survey Testt");
     }
 
+    /**
+     * Verify an exception is thrown in a attempt to create a surveyResponse with a surveyResponse name already existing
+     */
     @Test(expected = SurveyResponseCreateException.class)
-    public void createDuplicateSurveyResponseNameTest(){
+    public void createDuplicateSurveyResponseNameTest() {
         Controller tester = new Controller();
         String name = "Julie SurveyResponse";
         String surveyName = "Survey Test";
 
         tester.createSurvey(surveyName);
         tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name, "Survey Test 2");
+        tester.createSurveyResponse(name, surveyName);
     }
 
+    /**
+     * Verify an exception is thrown in a attempt to create a surveyResponse with an empty name
+     */
     @Test(expected = SurveyResponseCreateException.class)
-    public void createSurveyResponseWithEmptyNameTest(){
+    public void createSurveyResponseWithEmptyNameTest() {
         Controller tester = new Controller();
         String name = "";
         String surveyName = "Survey Test";
@@ -250,8 +262,11 @@ public class ControllerTest {
 
     }
 
+    /**
+     * Verify an exception is thrown in a attempt to create a surveyResponse with a null value as name
+     */
     @Test(expected = SurveyResponseCreateException.class)
-    public void createSurveyResponseWithNullValueNameTest(){
+    public void createSurveyResponseWithNullValueNameTest() {
         Controller tester = new Controller();
         String name = null;
         String surveyName = "Survey Test";
@@ -260,8 +275,11 @@ public class ControllerTest {
 
     }
 
+    /**
+     * Check that the answer is added to the surveyResponse
+     */
     @Test
-    public void addAnswerToSurveyResponseTest(){
+    public void addAnswerToSurveyResponseTest() {
         Controller tester = new Controller();
         String name = "Julie SurveyResponse";
         String surveyName = "Survey Test";
@@ -271,13 +289,16 @@ public class ControllerTest {
         tester.createSurvey(surveyName);
         tester.addQuestion(surveyName, expectedQuestion);
         tester.createSurveyResponse(name, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, expectedQuestion);
+        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
 
         Assert.assertEquals(answer, tester.getSurveyResponses().get(0).getResponses().get(expectedQuestion));
     }
 
+    /**
+     * Verify an exception is thrown in a attempt to add a question to a surveyResponse, when the question is not found.
+     */
     @Test(expected = QuestionNotFoundException.class)
-    public void addAnswerToSurveyResponseQuestionNotFoundTest(){
+    public void addAnswerToSurveyResponseQuestionNotFoundTest() {
         Controller tester = new Controller();
         String name = "Julie SurveyResponse";
         String surveyName = "Survey Test";
@@ -287,11 +308,15 @@ public class ControllerTest {
         tester.createSurvey(surveyName);
         tester.addQuestion(surveyName, expectedQuestion);
         tester.createSurveyResponse(name, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, "Another question");
+        tester.addAnswerToSurveyResponse(answer, name, surveyName, "Another question");
     }
 
+
+    /**
+     * Verify an exception is thrown in a attempt to add a question to a surveyResponse, when the SurveyResponse is not found.
+     */
     @Test(expected = SurveyResponseNotFound.class)
-    public void addAnswerToSurveyResponseNotFoundTest(){
+    public void addAnswerToSurveyResponseNotFoundTest() {
         Controller tester = new Controller();
         String name = "Julie SurveyResponse";
         String surveyName = "Survey Test";
@@ -301,11 +326,14 @@ public class ControllerTest {
         tester.createSurvey(surveyName);
         tester.addQuestion(surveyName, expectedQuestion);
         tester.createSurveyResponse(name, surveyName);
-        tester.addAnswerToSurveyResponse(answer, "Julia SurveyResponse", expectedQuestion);
+        tester.addAnswerToSurveyResponse(answer, "Julia SurveyResponse", surveyName, expectedQuestion);
     }
 
+    /**
+     * Verify an exception is thrown in a attempt to add a question to a surveyResponse, when the answer is not between 1-5
+     */
     @Test(expected = InvalidAnswerException.class)
-    public void addInvalidAnswerToSurveyResponseTest(){
+    public void addInvalidAnswerToSurveyResponseTest() {
         Controller tester = new Controller();
         String name = "Julie SurveyResponse";
         String surveyName = "Survey Test";
@@ -315,11 +343,16 @@ public class ControllerTest {
         tester.createSurvey(surveyName);
         tester.addQuestion(surveyName, expectedQuestion);
         tester.createSurveyResponse(name, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, expectedQuestion);
+        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
     }
 
+
+
+    /**
+     * Check that it is returning all surveys for a specific survey.
+     */
     @Test
-    public void getAllSurveyResponsesForSurvey(){
+    public void getAllSurveyResponsesForSurvey() {
         Controller tester = new Controller();
         String name = "Julie SurveyResponse";
         String name2 = "Joe SurveyReponse";
@@ -331,10 +364,11 @@ public class ControllerTest {
 
         tester.createSurvey(surveyName);
         tester.addQuestion(surveyName, expectedQuestion);
+        tester.addQuestion(surveyName, question2);
         tester.createSurveyResponse(name, surveyName);
         tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, question2);
+        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
+        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, question2);
         List<SurveyResponse> responses = tester.getAllSurveyResponsesForSurvey(surveyName);
 
         for (SurveyResponse surveyResponse : responses) {
@@ -342,8 +376,12 @@ public class ControllerTest {
         }
     }
 
-    @Test(expected =SurveyNotFoundException.class)
-    public void getAllSurveyResponsesForSurveyNotFoundTest(){
+
+    /**
+     * Verify an exception is thrown in a attempt to get all surveyResponses when the Survey name is not found.
+     */
+    @Test(expected = SurveyNotFoundException.class)
+    public void getAllSurveyResponsesForSurveyNotFoundTest() {
         Controller tester = new Controller();
         String name = "Julie SurveyResponse";
         String surveyName = "Survey Test";
@@ -353,11 +391,9 @@ public class ControllerTest {
         tester.createSurvey(surveyName);
         tester.addQuestion(surveyName, expectedQuestion);
         tester.createSurveyResponse(name, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, expectedQuestion);
+        tester.addAnswerToSurveyResponse(answer, name, surveyName,expectedQuestion);
         tester.getAllSurveyResponsesForSurvey("New survey");
     }
-
-
 
 
 }

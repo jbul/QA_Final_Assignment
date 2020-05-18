@@ -1,5 +1,6 @@
 package com.qa.assignment.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class SurveyResponse {
@@ -10,6 +11,11 @@ public class SurveyResponse {
     private Map<String, Integer> responses;
 
     public SurveyResponse(){}
+
+    public SurveyResponse(String name) {
+        responses = new HashMap<>();
+        this.name = name;
+    }
 
     public String getName() {
         return name;
