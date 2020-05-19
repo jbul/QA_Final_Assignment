@@ -34,8 +34,8 @@ public class Controller {
         for (Survey s : surveys) {
             if (s.getSurveyName().equalsIgnoreCase(surveyName)) {
                 if (s.getQuestions().size() < 10) {
-                    for (Question q : s.getQuestions()) {
-                        if (q.getQuestion().equalsIgnoreCase(questionName)) {
+                    for (Question question : s.getQuestions()) {
+                        if (question.getQuestion().equalsIgnoreCase(questionName)) {
                             throw new QuestionCreateException();
                         }
                     }
@@ -97,8 +97,8 @@ public class Controller {
         Survey survey = getSurveyByName(surveyName);
 
         boolean found = false;
-        for (Question quest : survey.getQuestions()) {
-            if (question.equalsIgnoreCase(quest.getQuestion())) {
+        for (Question currentQuestion : survey.getQuestions()) {
+            if (question.equalsIgnoreCase(currentQuestion.getQuestion())) {
                 found = true;
                 break;
             }
@@ -107,24 +107,24 @@ public class Controller {
             throw new QuestionNotFoundException();
         }
 
-        SurveyResponse sv = null;
-        for (SurveyResponse surveyResponses : getSurveyResponses()) {
-            if (surveyResponses.getName().equalsIgnoreCase(surveyResponseName)) {
-                sv = surveyResponses;
+        SurveyResponse foundSurveyResponse = null;
+        for (SurveyResponse surveyResponse : getSurveyResponses()) {
+            if (surveyResponse.getName().equalsIgnoreCase(surveyResponseName)) {
+                foundSurveyResponse = surveyResponse;
                 break;
             }
         }
-        if (sv == null) {
+        if (foundSurveyResponse == null) {
             throw new SurveyResponseNotFound();
         }
-        sv.getResponses().put(question, answer);
+        foundSurveyResponse.getResponses().put(question, answer);
 
 
     }
 
     public List<SurveyResponse> getAllSurveyResponsesForSurvey(String surveyName) {
         List<SurveyResponse> responses = new ArrayList<>();
-        getSurveyByName(surveyName);
+        getSurveyByName(surveyName);  //Calling method to ensure survey exists.
 
         for (SurveyResponse surveyResp : surveyResponses) {
             if (surveyResp.getSurvey().getSurveyName().equalsIgnoreCase(surveyName)) {
