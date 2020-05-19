@@ -149,7 +149,7 @@ public class Controller {
                 numQuestion++;
             }
         }
-        return Double.valueOf(total / numQuestion);
+        return Double.valueOf(total / (double) numQuestion);
     }
 
     public Double getSurveyStandardDeviation(String surveyName) {
@@ -177,7 +177,7 @@ public class Controller {
 
     public Integer getSurveyMaxScore(String surveyName) {
         List<Integer> answers = getSortedSurveyScores(surveyName);
-        return answers.get(answers.size()-1);
+        return answers.get(answers.size() - 1);
     }
 
     private List<Integer> getSortedSurveyScores(String surveyName) {
@@ -195,6 +195,83 @@ public class Controller {
         return answers;
     }
 
+    public Double getAverageForSpecificQuestion(String surveyName, String question) {
+        int total = 0;
+        int numQuestion = 0;
+        getSurveyByName(surveyName);  //Calling method to ensure survey exists.
+        boolean found = false;
+
+        List<SurveyResponse> responses = getAllSurveyResponsesForSurvey(surveyName);
+        for (SurveyResponse surveyResponse : responses) {
+            for (Map.Entry<String, Integer> entry : surveyResponse.getResponses().entrySet()) {
+                if (entry.getKey().equalsIgnoreCase(question)) {
+                    total += entry.getValue();
+                    numQuestion++;
+                    found = true;
+                }
+            }
+        }
+        if (!found) {
+            throw new QuestionNotFoundException();
+        }
+        return Double.valueOf(total / (double) numQuestion);
+    }
+
+    public Double getStandardDeviationForSpecificQuestion(String surveyName, String question) {
+
+        getSurveyByName(surveyName);  //Calling method to ensure survey exists.
+        StandardDeviation sd = new StandardDeviation(false);
+        List<Double> answers = new ArrayList<>();
+        List<SurveyResponse> responses = getAllSurveyResponsesForSurvey(surveyName);
+        boolean found = false;
+
+        for (SurveyResponse surveyResponse : responses) {
+            for (Map.Entry<String, Integer> entry : surveyResponse.getResponses().entrySet()) {
+                if (entry.getKey().equalsIgnoreCase(question)) {
+                    answers.add(Double.valueOf(entry.getValue()));
+                    found = true;
+                }
+            }
+        }
+        if (!found) {
+            throw new QuestionNotFoundException();
+        }
+        double[] answersArray = answers.stream().mapToDouble(Double::doubleValue).toArray();
+        return sd.evaluate(answersArray);
+    }
+
+    public Integer getMinScoreForSpecificQuestion(String surveyName, String question) {
+        List<Integer> answers = getSortedQuestionScores(surveyName, question);
+        return answers.get(0);
+    }
+
+    public Integer getMaxScoreForSpecificQuestion(String surveyName, String question) {
+        List<Integer> answers = getSortedQuestionScores(surveyName, question);
+        return answers.get(answers.size() - 1);
+    }
+
+    private List<Integer> getSortedQuestionScores(String surveyName, String question) {
+        getSurveyByName(surveyName);  //Calling method to ensure survey exists.
+        List<SurveyResponse> responses = getAllSurveyResponsesForSurvey(surveyName);
+        List<Integer> answers = new ArrayList<>();
+        boolean found = false;
+
+        for (SurveyResponse surveyResponse : responses) {
+            for (Map.Entry<String, Integer> entry : surveyResponse.getResponses().entrySet()) {
+                if (entry.getKey().equalsIgnoreCase(question)) {
+                    answers.add(Integer.valueOf(entry.getValue()));
+                    found = true;
+                }
+            }
+        }
+
+        if (!found) {
+            throw new QuestionNotFoundException();
+        }
+
+        Collections.sort(answers);
+        return answers;
+    }
 
 
     public List<Survey> getSurveys() {
