@@ -394,6 +394,9 @@ public class ControllerTest {
         tester.getAllSurveyResponsesForSurvey("New survey");
     }
 
+    /**
+     * Check that the average value is correct for a given survey name
+     */
     @Test
     public void getSurveyAverageTest(){
         Controller tester = new Controller();
@@ -416,6 +419,9 @@ public class ControllerTest {
 
     }
 
+    /**
+     * Verify an exception is thrown in a attempt to get the survey average when the survey name is not found
+     */
     @Test(expected = SurveyNotFoundException.class)
     public void getSurveyAverageSurveyNotFoundTest(){
         Controller tester = new Controller();
@@ -437,6 +443,9 @@ public class ControllerTest {
         tester.getSurveyAverage("Survey tests");
     }
 
+    /**
+     * Check that the standard deviation value is correct for a given survey name
+     */
     @Test
     public void getSurveyStandardDeviation(){
         Controller tester = new Controller();
@@ -459,6 +468,9 @@ public class ControllerTest {
     }
 
 
+    /**
+     * Verify an exception is thrown in a attempt to get the survey standard deviation when the survey name is not found
+     */
     @Test(expected = SurveyNotFoundException.class)
     public void getSurveyStandardDeviationSurveyNotFoundTest(){
         Controller tester = new Controller();
@@ -481,6 +493,9 @@ public class ControllerTest {
     }
 
 
+    /**
+     * Check that the minimum score value is correct for a given survey name
+     */
     @Test
     public void getSurveyMinScoreTest(){
         Controller tester = new Controller();
@@ -502,6 +517,9 @@ public class ControllerTest {
         Assert.assertEquals(Integer.valueOf(2), tester.getSurveyMinScore(surveyName));
     }
 
+    /**
+     * Verify an exception is thrown in a attempt to get the survey minimum score when the survey name is not found
+     */
     @Test(expected = SurveyNotFoundException.class)
     public void getSurveyMinScoreSurveyNotFoundTest() {
         Controller tester = new Controller();
@@ -523,6 +541,9 @@ public class ControllerTest {
         tester.getSurveyMinScore("Survey tests");
     }
 
+    /**
+     * Check that the maximum score value is correct for a given survey name
+     */
     @Test
     public void getSurveyMaxScoreTest(){
         Controller tester = new Controller();
@@ -544,6 +565,9 @@ public class ControllerTest {
         Assert.assertEquals(Integer.valueOf(4), tester.getSurveyMaxScore(surveyName));
     }
 
+    /**
+     * Verify an exception is thrown in a attempt to get the survey maximum score when the survey name is not found
+     */
     @Test(expected = SurveyNotFoundException.class)
     public void getSurveyMaxScoreSurveyNotFoundTest() {
         Controller tester = new Controller();
