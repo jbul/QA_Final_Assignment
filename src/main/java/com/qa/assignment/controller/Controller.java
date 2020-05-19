@@ -134,6 +134,20 @@ public class Controller {
         return responses;
     }
 
+    public Double getSurveyAverage(String surveyName){
+        return 0.0;
+    }
+
+    public Double getSurveyStandardDeviation(String surveyName){
+        return 0.0;
+    }
+
+    public Integer getSurveyMinScore(String surveyName){ return 0;}
+
+    public Integer getSurveyMaxScore(String surveyName){ return 0;}
+
+
+
     public List<Survey> getSurveys() {
         return surveys;
     }
