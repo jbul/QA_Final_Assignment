@@ -170,22 +170,17 @@ public class Controller {
     }
 
     public Integer getSurveyMinScore(String surveyName) {
-        getSurveyByName(surveyName);  //Calling method to ensure survey exists.
-        List<SurveyResponse> responses = getAllSurveyResponsesForSurvey(surveyName);
-        List<Integer> answers = new ArrayList<>();
-
-        for (SurveyResponse surveyResponse : responses) {
-            for (Map.Entry<String, Integer> entry : surveyResponse.getResponses().entrySet()) {
-                answers.add(Integer.valueOf(entry.getValue()));
-            }
-        }
-
-        Collections.sort(answers);
+        List<Integer> answers = getSortedSurveyScores(surveyName);
         return answers.get(0);
 
     }
 
     public Integer getSurveyMaxScore(String surveyName) {
+        List<Integer> answers = getSortedSurveyScores(surveyName);
+        return answers.get(answers.size()-1);
+    }
+
+    private List<Integer> getSortedSurveyScores(String surveyName) {
         getSurveyByName(surveyName);  //Calling method to ensure survey exists.
         List<SurveyResponse> responses = getAllSurveyResponsesForSurvey(surveyName);
         List<Integer> answers = new ArrayList<>();
@@ -197,8 +192,9 @@ public class Controller {
         }
 
         Collections.sort(answers);
-        return answers.get(answers.size()-1);
+        return answers;
     }
+
 
 
     public List<Survey> getSurveys() {
