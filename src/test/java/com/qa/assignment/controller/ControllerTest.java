@@ -791,7 +791,7 @@ public class ControllerTest {
         tester.createSurveyResponse(name2, surveyName);
         tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
         tester.addAnswerToSurveyResponse(answer2, name2, surveyName, expectedQuestion);
-        tester.getMinScoreForSpecificQuestion("Survey tests", expectedQuestion);
+        tester.getMinScoreForSpecificQuestion(surveyName, "question");
     }
 
     /**
@@ -858,7 +858,7 @@ public class ControllerTest {
         tester.createSurveyResponse(name2, surveyName);
         tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
         tester.addAnswerToSurveyResponse(answer2, name2, surveyName, expectedQuestion);
-        tester.getMaxScoreForSpecificQuestion("Survey tests", expectedQuestion);
+        tester.getMaxScoreForSpecificQuestion(surveyName, "Question");
     }
 
 
