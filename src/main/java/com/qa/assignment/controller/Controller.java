@@ -4,12 +4,9 @@ import com.qa.assignment.exception.*;
 import com.qa.assignment.model.Question;
 import com.qa.assignment.model.Survey;
 import com.qa.assignment.model.SurveyResponse;
-import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class Controller {
 
@@ -136,70 +133,6 @@ public class Controller {
         }
         return responses;
     }
-
-    public Double getSurveyAverage(String surveyName) {
-        int total = 0;
-        int numQuestion = 0;
-        getSurveyByName(surveyName);  //Calling method to ensure survey exists.
-
-        List<SurveyResponse> responses = getAllSurveyResponsesForSurvey(surveyName);
-        for (SurveyResponse surveyResponse : responses) {
-            for (Map.Entry<String, Integer> entry : surveyResponse.getResponses().entrySet()) {
-                total += entry.getValue();
-                numQuestion++;
-            }
-        }
-        return Double.valueOf(total / numQuestion);
-    }
-
-    public Double getSurveyStandardDeviation(String surveyName) {
-
-        getSurveyByName(surveyName);  //Calling method to ensure survey exists.
-        StandardDeviation sd = new StandardDeviation(false);
-        List<Double> answers = new ArrayList<>();
-        List<SurveyResponse> responses = getAllSurveyResponsesForSurvey(surveyName);
-
-        for (SurveyResponse surveyResponse : responses) {
-            for (Map.Entry<String, Integer> entry : surveyResponse.getResponses().entrySet()) {
-                answers.add(Double.valueOf(entry.getValue()));
-            }
-        }
-        double[] answersArray = answers.stream().mapToDouble(Double::doubleValue).toArray();
-        return sd.evaluate(answersArray);
-
-    }
-
-    public Integer getSurveyMinScore(String surveyName) {
-        getSurveyByName(surveyName);  //Calling method to ensure survey exists.
-        List<SurveyResponse> responses = getAllSurveyResponsesForSurvey(surveyName);
-        List<Integer> answers = new ArrayList<>();
-
-        for (SurveyResponse surveyResponse : responses) {
-            for (Map.Entry<String, Integer> entry : surveyResponse.getResponses().entrySet()) {
-                answers.add(Integer.valueOf(entry.getValue()));
-            }
-        }
-
-        Collections.sort(answers);
-        return answers.get(0);
-
-    }
-
-    public Integer getSurveyMaxScore(String surveyName) {
-        getSurveyByName(surveyName);  //Calling method to ensure survey exists.
-        List<SurveyResponse> responses = getAllSurveyResponsesForSurvey(surveyName);
-        List<Integer> answers = new ArrayList<>();
-
-        for (SurveyResponse surveyResponse : responses) {
-            for (Map.Entry<String, Integer> entry : surveyResponse.getResponses().entrySet()) {
-                answers.add(Integer.valueOf(entry.getValue()));
-            }
-        }
-
-        Collections.sort(answers);
-        return answers.get(answers.size()-1);
-    }
-
 
     public List<Survey> getSurveys() {
         return surveys;
