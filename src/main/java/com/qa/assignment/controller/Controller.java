@@ -195,6 +195,22 @@ public class Controller {
         return answers;
     }
 
+    public Double getAverageForSpecificQuestion(String surveyName, String question) {
+        return 0.0;
+    }
+
+    public Double getStandardDeviationForSpecificQuestion(String surveyName, String question) {
+        return 0.0;
+    }
+
+    public Integer getMinScoreForSpecificQuestion(String surveyName, String question) {
+        return 0;
+    }
+
+    public Integer getMaxScoreForSpecificQuestion(String surveyName, String question) {
+        return 0;
+    }
+
 
 
     public List<Survey> getSurveys() {
