@@ -21,10 +21,6 @@ public class SurveyResponse {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Survey getSurvey() {
         return survey;
     }
@@ -37,7 +33,4 @@ public class SurveyResponse {
         return responses;
     }
 
-    public void setResponses(Map<String, Integer> responses) {
-        this.responses = responses;
-    }
 }
