@@ -19,6 +19,9 @@ public class Controller {
     public Controller() {
     }
 
+    /**
+     * Method to create a survey that taking a survey name as an argument. If the survey name is null, empty or already exists it will throw an exception.
+     */
     public void createSurvey(String name) {
         Survey survey = new Survey(name);
         for (Survey existingSurvey : surveys) {
@@ -30,6 +33,11 @@ public class Controller {
         surveys.add(survey);
     }
 
+    /**
+     * Method that is adding a question to a survey that is taking a survey name and a question as arguments.
+     * If the question has a null value, is empty or already exists, it will throw an exception.
+     * Also checks that the survey does not contain more than 10 questions, otherwise an exception is thrown.
+     */
     public void addQuestion(String surveyName, String questionName) {
         if (questionName == null || questionName.equals("")) {
             throw new QuestionCreateException();
@@ -50,6 +58,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Method that retrieve a specific survey by name and take a survey name as argument. If survey name is not found, it will throw an exception.
+     */
     public Survey getSurveyByName(String surveyName) {
         for (Survey existingSurvey : surveys) {
             if (existingSurvey.getSurveyName().equals(surveyName)) {
@@ -59,6 +70,11 @@ public class Controller {
         throw new SurveyNotFoundException();
     }
 
+    /**
+     * Method that create a Survey response that takes a survey response name and a survey name as arguments.
+     * If the survey response name value is null, empty, or already exists it will throw an exception.
+     * If the survey name is not found, it will throw an exception.
+     */
     public void createSurveyResponse(String name, String surveyName) {
         SurveyResponse surveyResponse = new SurveyResponse(name);
         Survey survey = null;
@@ -70,8 +86,6 @@ public class Controller {
             if (existingSurvey.getSurveyName().equalsIgnoreCase(surveyName)) {
                 survey = existingSurvey;
                 break;
-
-
             }
         }
 
@@ -84,18 +98,21 @@ public class Controller {
         for (SurveyResponse surveyResp : surveyResponses) {
             if (surveyResp.getName().equalsIgnoreCase(name)) {
                 throw new SurveyResponseCreateException();
-
             }
         }
         surveyResponses.add(surveyResponse);
     }
 
+
+    /**
+     * Method that is adding an answer to a survey response. Firstly check that the is answer/score is between 1 and 5 otherwise an exception is thrown.
+     * If the question is not found, it will throw an exception. Same behaviour for survey response name.
+     */
     public void addAnswerToSurveyResponse(int answer, String surveyResponseName, String surveyName, String question) {
 
         if (answer < 1 || answer > 5) {
             throw new InvalidAnswerException();
         }
-
 
         Survey survey = getSurveyByName(surveyName);
 
@@ -125,6 +142,10 @@ public class Controller {
 
     }
 
+
+    /**
+     * Method that retrieves all the survey responses for a specific survey. It will throw an exception if the survey name is not found.
+     */
     public List<SurveyResponse> getAllSurveyResponsesForSurvey(String surveyName) {
         List<SurveyResponse> responses = new ArrayList<>();
         getSurveyByName(surveyName);  //Calling method to ensure survey exists.
@@ -137,6 +158,10 @@ public class Controller {
         return responses;
     }
 
+    /**
+     * Method that calculate the survey average for a given survey name.
+     * It will throw an exception if the survey name is not found.
+     */
     public Double getSurveyAverage(String surveyName) {
         int total = 0;
         int numQuestion = 0;
@@ -152,6 +177,10 @@ public class Controller {
         return Double.valueOf(total / (double) numQuestion);
     }
 
+    /**
+     * Method that calculates the survey standard deviation for a given survey name.
+     * It will throw an exception if the survey name is not found.
+     */
     public Double getSurveyStandardDeviation(String surveyName) {
 
         getSurveyByName(surveyName);  //Calling method to ensure survey exists.
@@ -164,22 +193,33 @@ public class Controller {
                 answers.add(Double.valueOf(entry.getValue()));
             }
         }
+        // Transform list Double to an array double
         double[] answersArray = answers.stream().mapToDouble(Double::doubleValue).toArray();
         return sd.evaluate(answersArray);
 
     }
 
+    /**
+     * Method that retrieves the survey minimum score for a given survey name.
+     */
     public Integer getSurveyMinScore(String surveyName) {
         List<Integer> answers = getSortedSurveyScores(surveyName);
         return answers.get(0);
 
     }
 
+    /**
+     * Method that retrieves the survey maximum score for a given survey name.
+     */
     public Integer getSurveyMaxScore(String surveyName) {
         List<Integer> answers = getSortedSurveyScores(surveyName);
         return answers.get(answers.size() - 1);
     }
 
+    /**
+     * Method that retrieves survey answers/score for a given survey name and sort them.
+     * if the survey name is not found, an exception will be thrown.
+     */
     private List<Integer> getSortedSurveyScores(String surveyName) {
         getSurveyByName(surveyName);  //Calling method to ensure survey exists.
         List<SurveyResponse> responses = getAllSurveyResponsesForSurvey(surveyName);
@@ -195,6 +235,11 @@ public class Controller {
         return answers;
     }
 
+
+    /**
+     * Method that calculate the average for a specific question on a survey.
+     * It will throw an exception if the survey name or question is not found.
+     */
     public Double getAverageForSpecificQuestion(String surveyName, String question) {
         int total = 0;
         int numQuestion = 0;
@@ -217,6 +262,11 @@ public class Controller {
         return Double.valueOf(total / (double) numQuestion);
     }
 
+
+    /**
+     * Method that calculate the standard deviation for a specific question on a survey.
+     * It will throw an exception if the survey name or question is not found.
+     */
     public Double getStandardDeviationForSpecificQuestion(String surveyName, String question) {
 
         getSurveyByName(surveyName);  //Calling method to ensure survey exists.
@@ -236,20 +286,31 @@ public class Controller {
         if (!found) {
             throw new QuestionNotFoundException();
         }
+        // Transform list Double to an array double
         double[] answersArray = answers.stream().mapToDouble(Double::doubleValue).toArray();
         return sd.evaluate(answersArray);
     }
 
+    /**
+     * Method that retrieves the minimum score for a specific question on a survey.
+     */
     public Integer getMinScoreForSpecificQuestion(String surveyName, String question) {
         List<Integer> answers = getSortedQuestionScores(surveyName, question);
         return answers.get(0);
     }
 
+    /**
+     * Method that retrieves the minimum score for a specific question on a survey.
+     */
     public Integer getMaxScoreForSpecificQuestion(String surveyName, String question) {
         List<Integer> answers = getSortedQuestionScores(surveyName, question);
         return answers.get(answers.size() - 1);
     }
 
+    /**
+     * Method that retrieves the answers/scores and sort them.
+     * Exception thrown if question or survey name not found.
+     */
     private List<Integer> getSortedQuestionScores(String surveyName, String question) {
         getSurveyByName(surveyName);  //Calling method to ensure survey exists.
         List<SurveyResponse> responses = getAllSurveyResponsesForSurvey(surveyName);

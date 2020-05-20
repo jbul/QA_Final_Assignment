@@ -352,22 +352,10 @@ public class ControllerTest {
      */
     @Test
     public void getAllSurveyResponsesForSurvey() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
         String surveyName = "Survey Test";
-        String expectedQuestion = "Test Question";
-        String question2 = "Test Question2";
-        Integer answer = 4;
-        Integer answer2 = 3;
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.addQuestion(surveyName, question2);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, question2);
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
+
         List<SurveyResponse> responses = tester.getAllSurveyResponsesForSurvey(surveyName);
 
         for (SurveyResponse surveyResponse : responses) {
@@ -399,24 +387,12 @@ public class ControllerTest {
      */
     @Test
     public void getSurveyAverageTest() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
         String surveyName = "Survey Test";
-        String expectedQuestion = "Test Question";
-        String question2 = "Test Question2";
-        Integer answer = 4;
-        Integer answer2 = 2;
+        Double expectedAverage = 2.5;
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.addQuestion(surveyName, question2);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, question2);
-        Assert.assertEquals(Double.valueOf(3.0), tester.getSurveyAverage(surveyName));
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
 
+        Assert.assertEquals(expectedAverage, tester.getSurveyAverage(surveyName));
     }
 
     /**
@@ -424,23 +400,12 @@ public class ControllerTest {
      */
     @Test(expected = SurveyNotFoundException.class)
     public void getSurveyAverageSurveyNotFoundTest() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
-        String surveyName = "Survey Test";
-        String expectedQuestion = "Test Question";
-        String question2 = "Test Question2";
-        Integer answer = 4;
-        Integer answer2 = 2;
+        String surveyName = "Survey Name";
+        String inexistingSurvey = "Inexisting Survey";
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.addQuestion(surveyName, question2);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, question2);
-        tester.getSurveyAverage("Survey tests");
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
+
+        tester.getSurveyAverage(inexistingSurvey);
     }
 
     /**
@@ -448,23 +413,11 @@ public class ControllerTest {
      */
     @Test
     public void getSurveyStandardDeviation() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
         String surveyName = "Survey Test";
-        String expectedQuestion = "Test Question";
-        String question2 = "Test Question2";
-        Integer answer = 4;
-        Integer answer2 = 2;
+        Double expectedDeviation = 1.5;
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.addQuestion(surveyName, question2);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, question2);
-        Assert.assertEquals(Double.valueOf(1.0), tester.getSurveyStandardDeviation(surveyName));
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
+        Assert.assertEquals(expectedDeviation, tester.getSurveyStandardDeviation(surveyName));
     }
 
 
@@ -473,23 +426,12 @@ public class ControllerTest {
      */
     @Test(expected = SurveyNotFoundException.class)
     public void getSurveyStandardDeviationSurveyNotFoundTest() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
         String surveyName = "Survey Test";
-        String expectedQuestion = "Test Question";
-        String question2 = "Test Question2";
-        Integer answer = 4;
-        Integer answer2 = 2;
+        String inexistingSurvey = "Inexisting Survey";
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.addQuestion(surveyName, question2);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, question2);
-        tester.getSurveyStandardDeviation("Survey tests");
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
+
+        tester.getSurveyStandardDeviation(inexistingSurvey);
     }
 
 
@@ -498,23 +440,12 @@ public class ControllerTest {
      */
     @Test
     public void getSurveyMinScoreTest() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
         String surveyName = "Survey Test";
-        String expectedQuestion = "Test Question";
-        String question2 = "Test Question2";
-        Integer answer = 4;
-        Integer answer2 = 2;
+        Integer expectedMinScore = 1;
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.addQuestion(surveyName, question2);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, question2);
-        Assert.assertEquals(Integer.valueOf(2), tester.getSurveyMinScore(surveyName));
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
+
+        Assert.assertEquals(expectedMinScore, tester.getSurveyMinScore(surveyName));
     }
 
     /**
@@ -522,23 +453,12 @@ public class ControllerTest {
      */
     @Test(expected = SurveyNotFoundException.class)
     public void getSurveyMinScoreSurveyNotFoundTest() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
         String surveyName = "Survey Test";
-        String expectedQuestion = "Test Question";
-        String question2 = "Test Question2";
-        Integer answer = 4;
-        Integer answer2 = 2;
+        String inexistingSurvey = "Inexisting Survey";
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.addQuestion(surveyName, question2);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, question2);
-        tester.getSurveyMinScore("Survey tests");
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
+
+        tester.getSurveyMinScore(inexistingSurvey);
     }
 
     /**
@@ -546,23 +466,12 @@ public class ControllerTest {
      */
     @Test
     public void getSurveyMaxScoreTest() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
         String surveyName = "Survey Test";
-        String expectedQuestion = "Test Question";
-        String question2 = "Test Question2";
-        Integer answer = 4;
-        Integer answer2 = 2;
+        Integer expectedMaxScore = 4;
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.addQuestion(surveyName, question2);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, question2);
-        Assert.assertEquals(Integer.valueOf(4), tester.getSurveyMaxScore(surveyName));
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
+
+        Assert.assertEquals(expectedMaxScore, tester.getSurveyMaxScore(surveyName));
     }
 
     /**
@@ -570,23 +479,12 @@ public class ControllerTest {
      */
     @Test(expected = SurveyNotFoundException.class)
     public void getSurveyMaxScoreSurveyNotFoundTest() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
-        String surveyName = "Survey Test";
-        String expectedQuestion = "Test Question";
-        String question2 = "Test Question2";
-        Integer answer = 4;
-        Integer answer2 = 2;
+        String existingSurvey = "Survey Test";
+        String inexistingSurvey = "Survey does not exists";
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.addQuestion(surveyName, question2);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, question2);
-        tester.getSurveyMaxScore("Survey tests");
+        Controller tester = getControllerWithSurveyAndSurveyResponse(existingSurvey);
+
+        tester.getSurveyMaxScore(inexistingSurvey);
     }
 
     /**
@@ -594,22 +492,13 @@ public class ControllerTest {
      */
     @Test
     public void getAverageForSpecificQuestionTest() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
         String surveyName = "Survey Test";
         String expectedQuestion = "Test Question";
-        Integer answer = 4;
-        Integer answer2 = 1;
+        Double expectedAverage = 2.5;
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, expectedQuestion);
-        Assert.assertEquals(Double.valueOf(2.5), tester.getAverageForSpecificQuestion(surveyName, expectedQuestion));
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
 
+        Assert.assertEquals(expectedAverage, tester.getAverageForSpecificQuestion(surveyName, expectedQuestion));
     }
 
     /**
@@ -617,22 +506,13 @@ public class ControllerTest {
      */
     @Test(expected = SurveyNotFoundException.class)
     public void getAverageForSpecificQuestionSurveyNotFoundTest() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
         String surveyName = "Survey Test";
+        String inexistingSurvey = "Inexisting Survey";
         String expectedQuestion = "Test Question";
-        Integer answer = 4;
-        Integer answer2 = 1;
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, expectedQuestion);
-        tester.getAverageForSpecificQuestion("surveys test", expectedQuestion);
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
 
+        tester.getAverageForSpecificQuestion(inexistingSurvey, expectedQuestion);
     }
 
     /**
@@ -640,22 +520,12 @@ public class ControllerTest {
      */
     @Test(expected = QuestionNotFoundException.class)
     public void getAverageForSpecificQuestionNotFoundTest() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
         String surveyName = "Survey Test";
-        String expectedQuestion = "Test Question";
-        Integer answer = 4;
-        Integer answer2 = 1;
+        String inexistingQuestion = "Not existing question";
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, expectedQuestion);
-        tester.getAverageForSpecificQuestion(surveyName, "tester question");
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
 
+        tester.getAverageForSpecificQuestion(surveyName, inexistingQuestion);
     }
 
     /**
@@ -663,21 +533,14 @@ public class ControllerTest {
      */
     @Test
     public void getStandardDeviationForSpecificQuestionTest() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
+
         String surveyName = "Survey Test";
         String expectedQuestion = "Test Question";
-        Integer answer = 4;
-        Integer answer2 = 1;
+        Double expectedDeviation = 1.5;
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, expectedQuestion);
-        Assert.assertEquals(Double.valueOf(1.5), tester.getStandardDeviationForSpecificQuestion(surveyName, expectedQuestion));
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
+
+        Assert.assertEquals(expectedDeviation, tester.getStandardDeviationForSpecificQuestion(surveyName, expectedQuestion));
 
     }
 
@@ -686,21 +549,12 @@ public class ControllerTest {
      */
     @Test(expected = QuestionNotFoundException.class)
     public void getStandardDeviationForSpecificQuestionTestNotFound() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
         String surveyName = "Survey Test";
-        String expectedQuestion = "Test Question";
-        Integer answer = 4;
-        Integer answer2 = 1;
+        String unexistingQuestion = "Not existing question";
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, expectedQuestion);
-        tester.getStandardDeviationForSpecificQuestion(surveyName, "tester question");
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
+
+        tester.getStandardDeviationForSpecificQuestion(surveyName, unexistingQuestion);
 
     }
 
@@ -709,21 +563,12 @@ public class ControllerTest {
      */
     @Test(expected = SurveyNotFoundException.class)
     public void getStandardDeviationForSpecificQuestionSurveyNotFoundTest() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
         String surveyName = "Survey Test";
+        String surveyNotExisting = "surveyNotExisting";
         String expectedQuestion = "Test Question";
-        Integer answer = 4;
-        Integer answer2 = 1;
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, expectedQuestion);
-        tester.getStandardDeviationForSpecificQuestion("Survey tests", expectedQuestion);
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
+        tester.getStandardDeviationForSpecificQuestion(surveyNotExisting, expectedQuestion);
 
     }
 
@@ -732,22 +577,13 @@ public class ControllerTest {
      */
     @Test
     public void getMinumumScoreForSpecificQuestionTest() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
+
         String surveyName = "Survey Test";
         String expectedQuestion = "Test Question";
-        Integer answer = 4;
-        Integer answer2 = 1;
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, expectedQuestion);
+
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
         Assert.assertEquals(Integer.valueOf(1), tester.getMinScoreForSpecificQuestion(surveyName, expectedQuestion));
-
     }
 
     /**
@@ -755,21 +591,12 @@ public class ControllerTest {
      */
     @Test(expected = SurveyNotFoundException.class)
     public void getMinimumScoreForSpecificQuestionSurveyNotFoundTest() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
         String surveyName = "Survey Test";
+        String unexistingSurvey = "Unexisting survey";
         String expectedQuestion = "Test Question";
-        Integer answer = 4;
-        Integer answer2 = 1;
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, expectedQuestion);
-        tester.getMinScoreForSpecificQuestion("Survey tests", expectedQuestion);
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
+        tester.getMinScoreForSpecificQuestion(unexistingSurvey, expectedQuestion);
     }
 
     /**
@@ -777,21 +604,12 @@ public class ControllerTest {
      */
     @Test(expected = QuestionNotFoundException.class)
     public void getMinimumScoreForSpecificQuestionNotFoundTest() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
         String surveyName = "Survey Test";
-        String expectedQuestion = "Test Question";
-        Integer answer = 4;
-        Integer answer2 = 1;
+        String unexistingQuestion = "Question Not Existing";
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, expectedQuestion);
-        tester.getMinScoreForSpecificQuestion(surveyName, "question");
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
+
+        tester.getMinScoreForSpecificQuestion(surveyName, unexistingQuestion);
     }
 
     /**
@@ -799,22 +617,12 @@ public class ControllerTest {
      */
     @Test
     public void getMaximumScoreForSpecificQuestionTest() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
         String surveyName = "Survey Test";
         String expectedQuestion = "Test Question";
-        Integer answer = 4;
-        Integer answer2 = 1;
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, expectedQuestion);
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
+
         Assert.assertEquals(Integer.valueOf(4), tester.getMaxScoreForSpecificQuestion(surveyName, expectedQuestion));
-
     }
 
     /**
@@ -822,21 +630,15 @@ public class ControllerTest {
      */
     @Test(expected = SurveyNotFoundException.class)
     public void getMaximumScoreForSpecificQuestionSurveyNotFoundTest() {
-        Controller tester = new Controller();
-        String name = "Julie SurveyResponse";
-        String name2 = "Joe SurveyReponse";
-        String surveyName = "Survey Test";
-        String expectedQuestion = "Test Question";
-        Integer answer = 4;
-        Integer answer2 = 1;
 
-        tester.createSurvey(surveyName);
-        tester.addQuestion(surveyName, expectedQuestion);
-        tester.createSurveyResponse(name, surveyName);
-        tester.createSurveyResponse(name2, surveyName);
-        tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
-        tester.addAnswerToSurveyResponse(answer2, name2, surveyName, expectedQuestion);
-        tester.getMaxScoreForSpecificQuestion("Survey tests", expectedQuestion);
+
+        String surveyName = "Survey Name";
+        String surveyNameNotExisting = "Survey Name Not Existing";
+
+        String expectedQuestion = "Test Question";
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
+
+        tester.getMaxScoreForSpecificQuestion(surveyNameNotExisting, expectedQuestion);
     }
 
     /**
@@ -844,11 +646,26 @@ public class ControllerTest {
      */
     @Test(expected = QuestionNotFoundException.class)
     public void getMaximumScoreForSpecificQuestionNotFoundTest() {
+
+        String surveyName = "Survey Test";
+
+        Controller tester = getControllerWithSurveyAndSurveyResponse(surveyName);
+
+        tester.getMaxScoreForSpecificQuestion(surveyName, "Question");
+    }
+
+    /**
+     * Creates a Controller with a survey. Adds 2 questions in the survey and adds some SurveyReponses with answer to some questions.
+     *
+     * @param surveyName name of the survey to be created
+     * @return
+     */
+    private Controller getControllerWithSurveyAndSurveyResponse(String surveyName) {
         Controller tester = new Controller();
         String name = "Julie SurveyResponse";
         String name2 = "Joe SurveyReponse";
-        String surveyName = "Survey Test";
         String expectedQuestion = "Test Question";
+
         Integer answer = 4;
         Integer answer2 = 1;
 
@@ -858,8 +675,8 @@ public class ControllerTest {
         tester.createSurveyResponse(name2, surveyName);
         tester.addAnswerToSurveyResponse(answer, name, surveyName, expectedQuestion);
         tester.addAnswerToSurveyResponse(answer2, name2, surveyName, expectedQuestion);
-        tester.getMaxScoreForSpecificQuestion(surveyName, "Question");
+
+        return tester;
+
     }
-
-
 }
