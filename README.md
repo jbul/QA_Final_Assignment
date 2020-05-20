@@ -23,11 +23,11 @@ Estimates were  based on 3 criteria: technical complexity, decision-making, quan
 ### How velocity is calculated?
 Velocity is the measure of work completed by the development team within each sprint. Velocity is calculated at the end of the Sprint by summing up the points for all fully completed User Stories. <br/>
 For example, during this sprint, I have done a total of 20 points. At the start of the next Sprint, once all the tasks are estimated, I will be able to know that the sum of points of all the tickets 
-must not exceed 20 as it is the baseline. If at the end of the sprint if there is still some time left, I will move the baseline to 23 points in order to adjust the velocity.<br/>
-On the other hand, if I do not manage to complete all the tickets. Then, the sprint will be reduced from the number of tickets left.<br/>
+must not exceed 20 as it is the baseline. If at the end of the sprint, there is still some time left, I will move the baseline to 23 points in order to adjust the velocity.<br/>
+On the other hand, if I do not manage to complete all the tickets, then, the sprint will be reduced from the number of tickets left.<br/>
 In order to illustrate that, we can look back at the initial sprint backlog. If during the sprint I would not have been able to complete the following tickets: 
 survey_calculation, survey_question_calculation. Then, my velocity would be 10 (initial_documentation + base_model + survey_features + survey_response_features).<br/>
-This means that the following sprint would only include survey_calculation and survey_question_calculation as their total story points is 10.
+This means that the following sprint would only include survey_calculation and survey_question_calculation as their total story points are 10.
 
 ## Test Driven Development
 The best illustration of the TDD approach in my project is composed by those 2 commits:
@@ -62,7 +62,7 @@ From the project's directory, run:
 ```
 This, will allow to build the project, run the tests and generate the following report from Jacoco:
 
-![alt text](coverage.png "Tests Coverage")
+![alt text](coverage.PNG "Tests Coverage")
 
 The full report can be found under: project_directory/build/reports/jacoco/test/html
 
