@@ -89,6 +89,7 @@ Example: *hotfix/branch_name_x*
 | *feature/survey_response_features* | Contains the business logic related to the SurveyReponses (Add a SurveyReponse to a Survey, give answers to questions from the Survey). Also contains all the tests related to the methods. |
 | *feature/survey_question_calculation*| Contains the implementation of calculation based on questions and their associated test methods.|
 | *feature/code_cleanup_1* | Contains the final version of the documentation for the sprint as well as some more ambitious optimisations on the code that were too big to be made during code reviews (model change for example). |
+| *bugfix/fixed_merge_issue_with_master* | During the final merge with master, some of my classes were removed. As a result, I have opened a bugfix branch in order to fix the bug. |
 
 ## Code Review Checklist
 - Are unit tests and integrations passing?
